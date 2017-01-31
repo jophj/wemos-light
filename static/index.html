@@ -1,0 +1,50 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+</head>
+<body ng-app="WemosLightController" ng-cloak>
+  <md-content layout-fill>
+    <div ng-controller="SwitchController" ng-click="onPageClick()" layout="row" layout-fill layout-align="center center">
+      <md-switch ng-model="switchStatus" aria-label="Switch" />
+    </div>
+  </md-content layout>
+
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+  <!-- Your application bootstrap  -->
+  <script type="text/javascript">
+    /**
+     * You must include the dependency on 'ngMaterial'
+     */
+    var app = angular.module('WemosLightController', ['ngMaterial']);
+    app.controller('SwitchController',  function($http, $scope) {
+      var statusParam = {
+        true: 'on',
+        false: 'off'
+      }
+      $scope.switchStatus = true; // TODO get status
+      $scope.onPageClick = function() {
+        $scope.switchStatus = !$scope.switchStatus;
+      }
+
+      $scope.$watch('switchStatus', function(newValue) {
+        $http.get('/light/jopcave', {
+          params: {
+            status: statusParam[$scope.switchStatus]
+          }
+        });
+      });
+    })
+  </script>
+
+</body>
+</html>
