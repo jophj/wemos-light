@@ -3,16 +3,16 @@ const app = express()
 const wemos = require('./wemos');
 
 app.use('/light/jopcave', function(req, res, next) {
-  console.log('Requested light ' + req.query.status + ' from ' + req.ip );
+  console.log('Requested light ' + req.query.switch + ' from ' + req.ip );
   next();
 })
 
 app.get('/light/jopcave', function (req, res) {
-  if (req.query.status === 'on') {
-    // TODO accippa
+  if (req.query.switch === 'on') {
+    wemos.switchOn()
   }
-  else if (req.query.status === 'off') {
-    // TODO spegni
+  else if (req.query.switch === 'off') {
+    wemos.switchOff()
   }
   res.sendStatus(200)
 })
