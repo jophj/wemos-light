@@ -3,11 +3,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <style>
+    md-content { cursor: pointer }
+  </style>
 </head>
 <body ng-app="WemosLightController" ng-cloak>
   <md-content layout-fill>
     <div ng-controller="SwitchController" ng-click="onPageClick()" layout="row" layout-fill layout-align="center center">
-      <md-switch ng-model="switchStatus" aria-label="Switch" />
+      <md-switch ng-model="switchStatus" aria-label="Switch" ng-click="$event.stopPropagation()"/>
     </div>
   </md-content layout>
 
@@ -31,15 +34,18 @@
         true: 'on',
         false: 'off'
       }
-      $scope.switchStatus = true; // TODO get status
+      $http.get('/light/jopcave/status').then(res => $scope.switchStatus = !!res.data.status);
+
       $scope.onPageClick = function() {
         $scope.switchStatus = !$scope.switchStatus;
       }
 
-      $scope.$watch('switchStatus', function(newValue) {
+      $scope.$watch('switchStatus', function(newValue, oldValue) {
+        if (oldValue === undefined) return;
+
         $http.get('/light/jopcave', {
           params: {
-            status: statusParam[$scope.switchStatus]
+            switch: statusParam[$scope.switchStatus]
           }
         });
       });

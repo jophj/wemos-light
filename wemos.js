@@ -32,4 +32,4 @@ module.exports = {
   getStatus: getStatus,
   switchOn: switchOn,
   switchOff: switchOff
-};
+}
