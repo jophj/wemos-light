@@ -1,5 +1,6 @@
-var express = require('express')
-var app = express()
+const express = require('express')
+const app = express()
+const wemos = require('./wemos');
 
 app.use('/light/jopcave', function(req, res, next) {
   console.log('Requested light ' + req.query.status + ' from ' + req.ip );
@@ -17,10 +18,8 @@ app.get('/light/jopcave', function (req, res) {
 })
 
 app.get('/light/jopcave/status', function(req, res) {
-  // TODO
-  res.send({
-    id: 'jopcave',
-    status: true
+  wemos.getStatus().then((status) => {
+    res.send(status)
   })
 })
 
