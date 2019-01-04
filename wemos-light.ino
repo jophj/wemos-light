@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
  
-const char* ssid = "Telecom-89565451";
-const char* password = "9xuLipSEigD0LO1si69k3I5G";
+const char* ssid = "***";
+const char* password = "***";
 const IPAddress ip(192, 168, 1, 99);
 const IPAddress gateway(192, 168, 1, 1);
 const IPAddress subnet(255, 255, 255, 0);
